@@ -6,7 +6,7 @@ import datetime
 
 # Start the browser and perform the test
 def start ():
-    print (timestamp() + 'Open chrome')
+    print (timestamp() + 'Start the browser')
     # --uncomment when running in Azure DevOps.
     options = ChromeOptions()
     
@@ -29,54 +29,64 @@ def start ():
 
 # Login method
 def login (driver, user, password):
-    print (timestamp() + 'Browser started successfully. Navigating to the demo page to login.')
+    print (timestamp() + 'Start loging in.')
+
     driver.get('https://www.saucedemo.com/')
+    print (timestamp() + 'Browser started.')
 
-    print (timestamp() + 'Enter username standard_user')
     driver.find_element(By.CSS_SELECTOR, "input[id = 'user-name']").send_keys(user)
+    print (timestamp() + 'User standard_user entered.')
 
-    print (timestamp() + 'Enter password secret_sauce')
     driver.find_element(By.CSS_SELECTOR, "input[id = 'password']").send_keys(password)
+    print (timestamp() + 'Password secret_sauce entered.')
 
-    print (timestamp() + 'Click login button')
     driver.find_element(By.CSS_SELECTOR, "input[id = 'login-button']").click()
+    print (timestamp() + 'Button clicked.')
 
     logoElements = driver.find_elements(By.CSS_SELECTOR, ".app_logo")
     assert len(logoElements) > 0, "Element not found"
 
-    print (timestamp() + 'Login success')
+    print (timestamp() + 'User successfully logged.')
+    print (timestamp() + 'End login.')
 
 # Add cart
 def add_cart(driver):
-    print (timestamp() + 'Add 6 product')
+    print (timestamp() + 'Start adding products to cart.')
     productElements = driver.find_elements(By.CSS_SELECTOR, ".inventory_item")
 
     for product in productElements:
         productButton = product.find_element(By.CSS_SELECTOR, ".btn_inventory")
         productName = product.find_element(By.CSS_SELECTOR, ".inventory_item_name")
-
-        print(timestamp() + f"Product {productName.text} was added to cart")
         productButton.click()
+
+        print(timestamp() + f"Product {productName.text} has been added to the cart.")
 
     cartCount = int(driver.find_element(By.CSS_SELECTOR, ".shopping_cart_badge").text)
     assert cartCount == len(productElements), 'The cart count does not correct'
-
-    print(timestamp() + 'Cart count = ' + str(cartCount))
+    print(timestamp() + 'Verified the product in the cart.')
+    
+    print(timestamp() + 'Number of products in cart: ' + str(cartCount) + '.')
+    print(timestamp() + 'Finish adding products.')
 
 # Remove all product
 def remove_cart(driver):
-    print (timestamp() + 'Cart page')
-    driver.find_element(By.CSS_SELECTOR, ".shopping_cart_link").click()
+    print(timestamp() + 'Start remove products in the cart.')
 
-    print (timestamp() + 'Remove all product')
+    driver.find_element(By.CSS_SELECTOR, ".shopping_cart_link").click()
+    print(timestamp() + 'Cart page opened.')
+
+    
     removeButtons = driver.find_elements(By.CSS_SELECTOR, ".cart_button")
     for remove in removeButtons:
         remove.click()
+        print(timestamp() + 'Removed product.')
+    print(timestamp() + 'Removed all products.')
 
     cartCountElement = driver.find_elements(By.CSS_SELECTOR, ".shopping_cart_badge")
     assert len(cartCountElement) == 0, "Remove failed"
+    print(timestamp() + 'Verified the product in the cart.')
 
-    print(timestamp() + 'Remove success or not')
+    print(timestamp() + 'Finish removing the product.')
 
 def timestamp():
     ts = datetime.datetime.now().strftime("%Y-%m-%dT%H:%M:%SZ")

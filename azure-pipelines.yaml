@@ -1,4 +1,4 @@
-name: Phung RUN $(Date:yyyyMMdd)$(Rev:.r)
+name: LinhNTX RUN $(Date:yyyyMMdd)$(Rev:.r)
 
 # Start with a minimal pipeline that you can customize to build and deploy your code.
 # Add steps that build, run tests, deploy, and more:
@@ -8,19 +8,19 @@ trigger:
 
 # ToDo: Replace the agent pool name, if you are using Udacity Cloud lab. 
 # Otherwise, comment out the line below. 
-pool: phungPool
+pool: LinhNTXAP
 
 variables:
   python.version: '3.7.6'
   # ToDo: Replace the service connection name as used in the DevOps project settings
-  azureServiceConnectionId: '5e796e77-e3d5-4a0b-8b05-6ea3563becc3'
+  azureServiceConnectionId: 'ecd3c1f7-b7a6-440f-bdde-afada8ab8a96'
   # Project root folder. Point to the folder containing manage.py file.
   projectRoot: $(System.DefaultWorkingDirectory)
   # Environment name
-  environmentName: 'phungEnv'
+  environmentName: 'LinhNTXE'
   # Web app name
-  webAppName: 'phunghttfinal3-appservice'
-  vmName: 'phunghttfinal3-VM-vm'
+  webAppName: 'LinhNTXP3-appservice'
+  vmName: 'LinhNTXP3-VM-vm'
 
 stages:
 #--------------------------------------------#  
@@ -48,7 +48,7 @@ stages:
         workingDirectory: '$(System.DefaultWorkingDirectory)/terraform/environments/test'
         backendServiceArm: '$(azureServiceConnectionId)'
         backendAzureRmResourceGroupName: 'Azuredevops'
-        backendAzureRmStorageAccountName: 'tfstate2786216121'
+        backendAzureRmStorageAccountName: 'tfstate1030919005'
         backendAzureRmContainerName: 'tfstate'
         backendAzureRmKey: 'test.terraform.tfstate'
 
@@ -183,7 +183,7 @@ stages:
   # Deploy FakeRestAPI Web App
   # ToDo: Provide <environment name> you created in your DevOps project
   - deployment: FakeRestAPI
-    pool: phungPool 
+    pool: LinhNTXAP 
     environment: '$(environmentName)'   # ToDo
     strategy:
       runOnce:
@@ -193,7 +193,7 @@ stages:
             displayName: 'Deploy Azure Web App'
             inputs:
               azureSubscription: '$(azureServiceConnectionId)'    # ToDo
-              appName: 'phunghttfinal3-AppService'              # ToDo
+              appName: 'LinhNTXP3-AppService'              # ToDo
               appType: webApp
               package: $(Pipeline.Workspace)/drop-fakerestapi/$(Build.BuildId)-fakerestapi.zip      # ToDo: Use the published zip artifact. 
           #--------------------------------------------#    
